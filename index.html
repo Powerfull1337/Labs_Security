@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управління користувачами</title>
+    <link rel="stylesheet" href="/style/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+
+<body>
+
+    <!-- капча -->
+    <div id="captcha-container">
+        <canvas id="captcha-canvas"></canvas>
+        <input type="text" id="captcha-input" placeholder="Введіть текст з картинки">
+        <button onclick="checkCaptcha()">Перевірити CAPTCHA</button>
+    </div>
+    
+    <!-- початкове -->
+    <div id="login-screen" class="hidden">
+        <h1>Увійти</h1>
+        <input type="text" id="username-input" placeholder="Ім'я користувача">
+        <input type="password" id="password-input" placeholder="Пароль">
+        <button onclick="authenticateUser()">Увійти</button>
+    </div>
+
+    <!-- адмін -->
+    <div id="admin-menu" class="hidden">
+        <h1>Меню адміністратора</h1>
+        <button onclick="addUser()">Додати користувача</button>
+        <button onclick="blockUser()">Заблокувати користувача</button>
+        <button onclick="unblockUser()">Розблокувати користувача</button>
+        <button onclick="togglePasswordRestrictions()">Змінити обмеження пароля</button>
+        <button onclick="viewUsers()">Переглянути користувачів</button>
+        <button onclick="viewLogs()">Переглянути логи</button>
+        <button onclick="logout()">Вийти</button>
+    </div>
+
+    <!-- юзер -->
+    <div id="user-menu" class="hidden">
+        <h1>Привіт, <span id="user-greeting"></span></h1>
+        <button onclick="changePassword()">Змінити пароль</button>
+        <button onclick="logout()">Вийти</button>
+    </div>
+
+    <!-- ліст юзерів -->
+    <div id="user-list" class="hidden">
+        <div id="user-list-content"></div>
+        <button onclick="showLoginScreen()">Назад</button>
+    </div>
+
+    <!-- для пароля -->
+    <div id="password-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closePasswordModal()">&times;</span>
+            <h2 id="password-modal-title"></h2>
+            <input type="password" id="current-password" placeholder="Поточний пароль" class="modal-input">
+            <input type="password" id="new-password" placeholder="Новий пароль" class="modal-input"
+                oninput="checkPasswordStrength()">
+            <input type="password" id="confirm-password" placeholder="Підтвердіть новий пароль" class="modal-input">
+            <button onclick="submitPasswordModal()">Зберегти</button>
+            <div id="password-requirements">
+                <p id="length-status">Мінімум 8 символів</p>
+                <p id="special-status">Містить спеціальний символ</p>
+                <p id="uppercase-status">Містить велику букву</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- для логіна -->
+    <div id="username-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeUsernameModal()">&times;</span>
+            <h2 id="username-modal-title"></h2>
+            <input type="text" id="username-input-modal" placeholder="Ім'я користувача" class="modal-input">
+            <button onclick="submitUsernameModal()">Зберегти</button>
+        </div>
+    </div>
+    <!-- логи -->
+    <div id="logs-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeLogsModal()">&times;</span>
+            <div id="logs-content"></div>
+            <button onclick="closeLogsModal()">Закрити</button>
+        </div>
+    </div>
+
+
+    <script src="/js/scripts.js"></script>
+    <script src="/js/logs.js"></script>
+    <script src="/js/captcha.js" defer></script>
+
+</body>
+
+</html>
